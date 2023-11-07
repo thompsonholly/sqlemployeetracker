@@ -28,11 +28,52 @@ const viewRole = () => {
   })
 };
 
-const viewAllEmployee = () => {
+const viewAllEmployees = () => {
   db.query('SELECT * FROM employee', (err, res) => {
     console.table(res)
   })
 };
+const addDepartment = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'add_department',
+      message: 'Please provide new department name.'
+    }
+  ])
+    .then((answer) => {
+      const sql = `INSERT INTO department (department_name)
+      VALUES (?)`;
+      const params = [answer.add_department];
+
+      db.query(sql, params, (err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(res)
+      });
+
+    })
+
+};
+
+const updateEmployee = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'employee_id',
+      message: 'Please enter employee ID that you wish to update.'
+    },
+    {
+      type: 'input',
+      name: 'new_role',
+      message: 'Please enter new role ID for employee.'
+    }
+  ])
+    .then((answer) => {
+      const sql = `UPDATE `
+    })
+}
 
 
 
@@ -47,11 +88,35 @@ const init = () => {
   ])
     .then((answer) => {
       if (answer.option === 'view all departments') {
+
         viewDepartment();
-        viewRole();
-        viewAllEmployee();
+
+        // viewAllEmployees();
       }
+      else if (answer.option === 'view all roles') {
+        viewRole();
+      }
+      else if (answer.option === 'view all employees') {
+
+        viewAllEmployees();
+      }
+      else if (answer.option === 'add a department') {
+
+        addDepartment();
+      }
+      else {
+        updateEmployee();
+      }
+
     })
+
+
+
+
+
+
+
+
 };
 
 
