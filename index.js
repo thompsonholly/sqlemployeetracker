@@ -33,6 +33,7 @@ const viewAllEmployees = () => {
     console.table(res)
   })
 };
+
 const addDepartment = () => {
   inquirer.prompt([
     {
@@ -42,7 +43,7 @@ const addDepartment = () => {
     }
   ])
     .then((answer) => {
-      const sql = `INSERT INTO department (department_name)
+      const sql = `INSERT INTO department (name)
       VALUES (?)`;
       const params = [answer.add_department];
 
@@ -51,6 +52,57 @@ const addDepartment = () => {
           console.log(err)
         }
         console.table(res)
+        init();
+      });
+
+    })
+
+};
+
+const addRole = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'add_role',
+      message: 'Please provide new role name.'
+    }
+  ])
+    .then((answer) => {
+      const sql = `INSERT INTO role (name)
+      VALUES (?)`;
+      const params = [answer.add_role];
+
+      db.query(sql, params, (err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(res)
+        init();
+      });
+
+    })
+
+};
+
+const addEmployee = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'add_employee',
+      message: 'Please provide new employee name.'
+    }
+  ])
+    .then((answer) => {
+      const sql = `INSERT INTO employee (name)
+      VALUES (?)`;
+      const params = [answer.add_employee];
+
+      db.query(sql, params, (err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(res)
+        init();
       });
 
     })
@@ -71,9 +123,45 @@ const updateEmployee = () => {
     }
   ])
     .then((answer) => {
-      const sql = `UPDATE `
+      const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+      const params = [answer.new_role, answer.employee_id];
+      db.query(sql, params, (err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(res)
+        init();
+      });
     })
 }
+
+const updateEmployeeManager = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'manager_id',
+      message: 'Please enter manager ID that you wish to update.'
+    },
+    {
+      type: 'input',
+      name: 'new_manager',
+      message: 'Please enter new manager ID for employee.'
+    }
+  ])
+    .then((answer) => {
+      const sql = `UPDATE employee SET manager_id = ? WHERE id = ?`;
+      const params = [answer.new_role, answer.manager_id];
+      db.query(sql, params, (err, res) => {
+        if (err) {
+          console.log(err)
+        }
+        console.table(res)
+        init();
+      });
+    })
+}
+
+
 
 
 
@@ -83,7 +171,7 @@ const init = () => {
       type: 'list',
       name: 'option',
       message: 'Pick an option.',
-      choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role']
+      choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager']
     }
   ])
     .then((answer) => {
@@ -91,7 +179,6 @@ const init = () => {
 
         viewDepartment();
 
-        // viewAllEmployees();
       }
       else if (answer.option === 'view all roles') {
         viewRole();
@@ -104,9 +191,20 @@ const init = () => {
 
         addDepartment();
       }
-      else {
-        updateEmployee();
+      else if (answer.option === 'add a role') {
+
+        addRole();
       }
+      else if (answer.option === 'add an employee') {
+
+        addEmployee();
+      }
+      else if (answer.option === 'update an employee manager') {
+        updateEmployeeManager();
+      }
+      // else {
+      //   updateEmployee();
+      // }
 
     })
 
