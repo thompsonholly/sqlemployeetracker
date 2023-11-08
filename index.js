@@ -34,6 +34,13 @@ const viewAllEmployees = () => {
   })
 };
 
+// Bonus 
+const viewAllManagers = () => {
+  db.query('SELECT manager_id FROM employee', (err, res) => {
+    console.table(res)
+  })
+};
+
 const addDepartment = () => {
   inquirer.prompt([
     {
@@ -135,6 +142,7 @@ const updateEmployee = () => {
     })
 }
 
+// Bonus
 const updateEmployeeManager = () => {
   inquirer.prompt([
     {
@@ -149,15 +157,15 @@ const updateEmployeeManager = () => {
     }
   ])
     .then((answer) => {
-      const sql = `UPDATE employee SET manager_id = ? WHERE id = ?`;
-      const params = [answer.new_role, answer.manager_id];
+      const sql = `UPDATE employee SET manager_id = ? WHERE manager_id = ?`;
+      const params = [answer.new_manager, answer.employee_id.manager_id];
       db.query(sql, params, (err, res) => {
         if (err) {
           console.log(err)
         }
         console.table(res)
         init();
-      });
+      })
     })
 }
 
@@ -171,7 +179,7 @@ const init = () => {
       type: 'list',
       name: 'option',
       message: 'Pick an option.',
-      choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role', 'Update an employee manager']
+      choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee manager', 'View all Managers', 'Update an employee role']
     }
   ])
     .then((answer) => {
@@ -199,12 +207,17 @@ const init = () => {
 
         addEmployee();
       }
+      // Bonus
       else if (answer.option === 'update an employee manager') {
         updateEmployeeManager();
       }
-      // else {
-      //   updateEmployee();
-      // }
+      // Bonus
+      else if (answer.option === 'view all managers') {
+        viewAllManagers();
+      }
+      else {
+        updateEmployee();
+      }
 
     })
 
