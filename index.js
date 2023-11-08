@@ -41,6 +41,7 @@ const viewAllManagers = () => {
   })
 };
 
+
 const addDepartment = () => {
   inquirer.prompt([
     {
@@ -158,7 +159,7 @@ const updateEmployeeManager = () => {
   ])
     .then((answer) => {
       const sql = `UPDATE employee SET manager_id = ? WHERE manager_id = ?`;
-      const params = [answer.new_manager, answer.employee_id.manager_id];
+      const params = [answer.new_manager, answer.manager_id];
       db.query(sql, params, (err, res) => {
         if (err) {
           console.log(err)
@@ -179,40 +180,41 @@ const init = () => {
       type: 'list',
       name: 'option',
       message: 'Pick an option.',
-      choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee manager', 'View all Managers', 'Update an employee role']
+      choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee manager', 'View all managers', 'Update an employee role']
     }
   ])
     .then((answer) => {
-      if (answer.option === 'view all departments') {
+      console.log(answer)
+      if (answer.option === 'View all departments') {
 
         viewDepartment();
 
       }
-      else if (answer.option === 'view all roles') {
+      else if (answer.option === 'View all roles') {
         viewRole();
       }
-      else if (answer.option === 'view all employees') {
+      else if (answer.option === 'View all employees') {
 
         viewAllEmployees();
       }
-      else if (answer.option === 'add a department') {
+      else if (answer.option === 'Add a department') {
 
         addDepartment();
       }
-      else if (answer.option === 'add a role') {
+      else if (answer.option === 'Add a role') {
 
         addRole();
       }
-      else if (answer.option === 'add an employee') {
+      else if (answer.option === 'Add an employee') {
 
         addEmployee();
       }
       // Bonus
-      else if (answer.option === 'update an employee manager') {
+      else if (answer.option === 'Update an employee manager') {
         updateEmployeeManager();
       }
       // Bonus
-      else if (answer.option === 'view all managers') {
+      else if (answer.option === 'View all managers') {
         viewAllManagers();
       }
       else {
@@ -220,13 +222,6 @@ const init = () => {
       }
 
     })
-
-
-
-
-
-
-
 
 };
 
