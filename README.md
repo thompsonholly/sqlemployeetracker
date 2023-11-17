@@ -16,4 +16,4 @@ https://github.com/thompsonholly/sqlemployeetracker
 
 ## Video Walkthrough
 
-https://drive.google.com/file/d/1UvGZW1iOTJoQOm6pcpWx3C9siv7gPWKe/viewLinks to an external site.
+https://watch.screencastify.com/v/qS7kFSQ5liGcN8SNMWmL to an external site.
