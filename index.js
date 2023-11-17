@@ -21,17 +21,20 @@ const viewDepartment = () => {
   db.query('SELECT * FROM department', (err, res) => {
     console.table(res)
   })
+  init();
 };
 const viewRole = () => {
   db.query('SELECT * FROM role', (err, res) => {
     console.table(res)
   })
+  init();
 };
 
 const viewAllEmployees = () => {
   db.query('SELECT * FROM employee', (err, res) => {
     console.table(res)
   })
+  init();
 };
 
 // Bonus 
@@ -39,6 +42,7 @@ const viewAllManagers = () => {
   db.query('SELECT manager_id FROM employee', (err, res) => {
     console.table(res)
   })
+  init();
 };
 
 
@@ -71,14 +75,25 @@ const addRole = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'add_role',
-      message: 'Please provide new role name.'
+      name: 'title',
+      message: 'Please provide new title for a role.'
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'Please enter in a salary for the new role.'
+    },
+    {
+      type: 'input',
+      name: 'department_id',
+      message: 'Please enter a new department ID for new role.'
     }
   ])
     .then((answer) => {
-      const sql = `INSERT INTO role (name)
-      VALUES (?)`;
-      const params = [answer.add_role];
+      const sql = `INSERT INTO role (title, salary, department_id)
+      VALUES (?, ?, ?)`;
+      console.log("yes");
+      const params = [answer.title, answer.salary, answer.department_id];
 
       db.query(sql, params, (err, res) => {
         if (err) {
@@ -96,14 +111,31 @@ const addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'add_employee',
-      message: 'Please provide new employee name.'
-    }
+      name: 'add_firstname',
+      message: 'Please provide new employee first name.'
+    },
+
+    {
+      type: 'input',
+      name: 'add_lastname',
+      message: 'Please provide new employee last name.'
+    },
+    {
+      type: 'input',
+      name: 'role_id',
+      message: 'Please provide new employee ID.'
+    },
+    {
+      type: 'input',
+      name: 'manager_id',
+      message: 'Please provide a manager id if applicable.'
+    },
+
   ])
     .then((answer) => {
-      const sql = `INSERT INTO employee (name)
-      VALUES (?)`;
-      const params = [answer.add_employee];
+      const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+      VALUES (?, ?, ?, ?) `;
+      const params = [answer.first_name, answer.last_name, answer.role_id, answer.manager_id];
 
       db.query(sql, params, (err, res) => {
         if (err) {
@@ -132,7 +164,7 @@ const updateEmployee = () => {
   ])
     .then((answer) => {
       const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
-      const params = [answer.new_role, answer.employee_id];
+      const params = [answer.employee_id, answer.new_role];
       db.query(sql, params, (err, res) => {
         if (err) {
           console.log(err)
@@ -148,8 +180,8 @@ const updateEmployeeManager = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'manager_id',
-      message: 'Please enter manager ID that you wish to update.'
+      name: 'employee_id',
+      message: 'Please enter employee ID that you wish to update.'
     },
     {
       type: 'input',
@@ -158,8 +190,8 @@ const updateEmployeeManager = () => {
     }
   ])
     .then((answer) => {
-      const sql = `UPDATE employee SET manager_id = ? WHERE manager_id = ?`;
-      const params = [answer.new_manager, answer.manager_id];
+      const sql = `UPDATE employee SET manager_id = ? WHERE id = ?`;
+      const params = [answer.employee_id, answer.new_manager];
       db.query(sql, params, (err, res) => {
         if (err) {
           console.log(err)
