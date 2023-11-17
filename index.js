@@ -111,13 +111,13 @@ const addEmployee = () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'add_firstname',
+      name: 'first_name',
       message: 'Please provide new employee first name.'
     },
 
     {
       type: 'input',
-      name: 'add_lastname',
+      name: 'last_name',
       message: 'Please provide new employee last name.'
     },
     {

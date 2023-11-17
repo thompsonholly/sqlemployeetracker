@@ -11,8 +11,9 @@ You can quickly and easily view the employee database file by using the command-
 ![screenshot](./images/employeedepartments.png)
 ![screenshot](./images/employees.png)
 
-https://github.com/thompsonholly/readmegenerator
+## Link to github
+https://github.com/thompsonholly/sqlemployeetracker
 
-Video Walkthrough
+## Video Walkthrough
 
 https://drive.google.com/file/d/1UvGZW1iOTJoQOm6pcpWx3C9siv7gPWKe/viewLinks to an external site.
